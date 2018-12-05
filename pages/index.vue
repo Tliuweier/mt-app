@@ -20,6 +20,7 @@
 import Logo from '~/components/Logo.vue'
 import Emenu from '~/components/index/menu.vue'
 import Life from '~/components/index/life.vue'
+
 export default {
   components: {
     Logo,

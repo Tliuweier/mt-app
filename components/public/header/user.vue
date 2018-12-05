@@ -25,5 +25,13 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+.m-user {
+  a {
+    margin-left: 15px;
+  }
+  .register {
+    color: #999;
+  }
+}
 </style>

@@ -35,7 +35,7 @@
             <dd>珠江夜游</dd>
           </dl>
         </div>
-        <p class="suggset">
+        <p class="suggest">
           <a href="#">广州长隆欢乐世界</a>
           <a href="#">广州长隆野生动物园</a>
           <a href="#">正佳极地海洋世界</a>

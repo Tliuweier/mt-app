@@ -33,7 +33,9 @@
           <el-input v-model="ruleForm.email"/>
           <el-button
             size="mini"
-            round >发送验证码</el-button>
+            round
+            @click="sendCode">发送验证码</el-button>
+          <span class="status">{{ statusMsg }}</span>
         </el-form-item>
         <el-form-item
           label="验证码"
@@ -51,14 +53,16 @@
         </el-form-item>
         <el-form-item
           label="确认密码"
-          prop="pwd">
+          prop="checkpass">
           <el-input
-            v-model="ruleForm.cpwd"
+            v-model="ruleForm.checkpass"
             type="password"/>
         </el-form-item>
         <el-form-item>
           <el-button
-            type="primary">同意以下协议并注册</el-button>
+            type="primary"
+            @click="register">同意以下协议并注册</el-button>
+          <div class="error">{{ error }}</div>
         </el-form-item>
         <el-form-item>
           <a
@@ -72,16 +76,38 @@
 </template>
 
 <script>
+import CryptoJs from 'crypto-js'
 export default {
   layout: 'blank',
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        if (this.ruleForm.checkpass !== '') {
+          this.$refs.ruleForm.validateField('checkpass')
+        }
+        callback()
+      }
+    }
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.ruleForm.pwd) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
+      statusMsg: '',
+      error: '',
       ruleForm: {
         name: '',
         email: '',
         code: '',
         pwd: '',
-        cpwd: ''
+        checkpass: ''
       },
       rules: {
         name: [
@@ -102,31 +128,86 @@ export default {
         ],
         pwd: [
           {
-            required: true,
-            message: '创建密码',
+            validator: validatePass,
             trigger: 'blur'
           }
         ],
-        cpwd: [
+        checkpass: [
           {
-            required: true,
-            message: '确认密码',
-            trigger: 'blur'
-          },
-          {
-            validator: (rule, value, callback) => {
-              if (value === '') {
-                callback(new Error('请再次输入密码'))
-              } else if (value !== this.ruleForm.pwd) {
-                callback(new Error('两次输入密码不一致'))
-              } else {
-                callback()
-              }
-            },
+            validator: validatePass2,
             trigger: 'blur'
           }
         ]
       }
+    }
+  },
+  methods: {
+    sendCode: function() {
+      const _this = this
+      let namePass
+      let emailPass
+      if (_this.timerid) {
+        return false
+      }
+      this.$refs['ruleForm'].validateField('name', valid => {
+        namePass = valid
+      })
+      _this.statusMsg = ''
+      if (namePass) {
+        return false
+      }
+      this.$refs['ruleForm'].validateField('email', valid => {
+        emailPass = valid
+      })
+      if (!namePass && !emailPass) {
+        _this.$axios
+          .post('/users/verify', {
+            username: window.encodeURIComponent(_this.ruleForm.name),
+            email: _this.ruleForm.email
+          })
+          .then(({ status, data }) => {
+            if (status === 200 && data && data.code == 0) {
+              let count = 180
+              _this.statusMsg = `验证码已发送，剩余${count--}`
+              _this.timerid = setInterval(function() {
+                _this.statusMsg = `验证码已发送，剩余${count--}`
+                if (count == 0) {
+                  clearInterval(_this.timerid)
+                }
+              }, 1000)
+            } else {
+              _this.statusMsg = data.msg
+            }
+          })
+      }
+    },
+    register: function() {
+      let _this = this
+      this.$refs['ruleForm'].validate(valid => {
+        if (valid) {
+          _this.$axios
+            .post('/users/signup', {
+              username: window.encodeURIComponent(_this.ruleForm.name),
+              password: CryptoJs.MD5(_this.ruleForm.pwd).toString(),
+              email: _this.ruleForm.email,
+              code: _this.ruleForm.code
+            })
+            .then(({ status, data }) => {
+              if (status === 200) {
+                if (data && data.code === 0) {
+                  location.href = '/login'
+                } else {
+                  _this.error = data.msg
+                }
+              } else {
+                _this.error = `服务器出错，错去吗：${status}`
+              }
+              setTimeout(function() {
+                _this.error = ''
+              }, 1500)
+            })
+        }
+      })
     }
   }
 }

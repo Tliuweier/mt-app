@@ -37,7 +37,8 @@
         <el-button
           class="btn-login"
           type="succcess"
-          size="mini">
+          size="mini"
+          @click="login">
           登录
         </el-button>
       </div>
@@ -80,6 +81,7 @@
 </template>
 
 <script>
+import CryptoJs from 'crypto-js'
 export default {
   layout: 'blank',
   data() {
@@ -88,6 +90,27 @@ export default {
       password: '',
       checked: '',
       error: ''
+    }
+  },
+  methods: {
+    login: function() {
+      let _this = this
+      _this.$axios
+        .post('/users/signin', {
+          username: window.encodeURIComponent(_this.username),
+          password: CryptoJs.MD5(_this.password).toString()
+        })
+        .then(({ status, data }) => {
+          if (status === 200) {
+            if (data && data.code == 0) {
+              location.href = '/'
+            } else {
+              _this.error = data.msg
+            }
+          } else {
+            _this.error = '服务器出错'
+          }
+        })
     }
   }
 }
