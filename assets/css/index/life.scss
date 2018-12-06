@@ -6,6 +6,22 @@
         background:url(//p0.meituan.net/codeman/e473bb428f070321269b23370ff02ba956209.jpg);
         background-size:150px;
     }
+    .m-life-default{
+      margin:10px 0 10px 0;
+      box-sizing:border-box;
+      height:240px;
+      background:#fff;
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      padding:15px;
+      img{
+        width: 47px;
+        height: 47px;
+        border-radius: 50%;
+        border: 4px solid #E5E5E5;
+      }
+    }
     .m-life-login{
         margin:10px 0 10px 0;
         box-sizing:border-box;
