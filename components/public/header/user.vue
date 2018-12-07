@@ -43,9 +43,13 @@ export default {
   }
   .none-left {
     margin-left: 0px;
+    color: #999999;
   }
   .register {
     color: #999;
+  }
+  .username {
+    color: #31bbac;
   }
 }
 </style>

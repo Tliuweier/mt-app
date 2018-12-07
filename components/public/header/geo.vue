@@ -1,6 +1,6 @@
 <template>
   <div class=" m-geo">
-    <i class="el-icon-location"/>{{ address }}
+    <i class="el-icon-location"/>{{ $store.state.geo.position.city }}
     <nuxt-link
       class="changeCity"
       to="/changeCity">切换城市</nuxt-link>
@@ -21,7 +21,7 @@
 <script>
 export default {
   data() {
-    return { address: '广州' }
+    return { address: '中国' }
   }
 }
 </script>

@@ -10,7 +10,7 @@ import session from 'koa-generic-session'
 import Redis from 'koa-redis'
 import json from 'koa-json'
 import passport from './interface/utils/passport'
-
+import geo from './interface/geo'
 const app = new Koa()
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
@@ -44,6 +44,7 @@ async function start() {
   }
   //路由配置
   app.use(users.routes()).use(users.allowedMethods())
+  app.use(geo.routes()).use(geo.allowedMethods())
   app.use(ctx => {
     ctx.status = 200 // koa defaults to 404 when it sees that status is unset
 

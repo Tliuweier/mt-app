@@ -27,7 +27,7 @@
             </el-col>
             <el-col style="text-align: center">
               <div
-                class="fn-item"><i class="iconfont icon-tubiaolunkuo-" /><p class="fn-name">余额</p></div>
+                class="fn-item"><i class="iconfont icon-yuebao" /><p class="fn-name">余额</p></div>
               <div
                 class="fn-item"
                 style="margin-top: 2px;"><i class="el-icon-more" /><p class="fn-name">更多</p></div>
