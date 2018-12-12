@@ -1,8 +1,11 @@
 .m-istyle {
-  width: 1190px;
+  width: 1170px;
   margin-left: 20px;
   margin-top: 40px;
-
+  .ftfamily {
+    //font-family: MFShangHei-Regular!important;
+    font-family: "-apple-system", BlinkMacSystemFont, Roboto, "Helvetica Neue", "MIcrosoft YaHei", sans-serif;
+  }
   dl {
     height: 44px;
     line-height: 44px;
@@ -142,10 +145,12 @@
             }
           }
         }
+        .el-card__body:hover {
+          background-color: #e5e5e5;
+        }
       }
-
       &:hover {
-        background: #F4F4F4;
+        background: #e5e5e5;
         transition: background-color .5s;
         border-radius: 4px;
       }
