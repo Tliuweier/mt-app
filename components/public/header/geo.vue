@@ -1,9 +1,9 @@
 <template>
   <div class=" m-geo">
-    <i class="el-icon-location"/>{{ $store.state.geo.position.city }}
+    <i class="el-icon-location"/>{{ $store.state.geo.position.city==null? "广州市" : $store.state.geo.position.city }}
     <nuxt-link
-      class="changeCity"
-      to="/changeCity">切换城市</nuxt-link>
+      :to="{name:'changeCities'}"
+      class="changeCity">切换城市</nuxt-link>
     <div class="near-citys">[
       <a
         class="city-guess"

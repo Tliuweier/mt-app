@@ -1,6 +1,8 @@
 <template>
   <div class="search-panel">
-    <el-row class="m-header-searchbar">
+    <el-row
+      :style="name !== 'index'?'height:130px':'height:157px'"
+      class="m-header-searchbar">
       <el-col
         :span="3"
         class="left">
@@ -44,7 +46,9 @@
             href="#">{{ item.name }}</a>
 
         </p>
-        <ul class="nav">
+        <ul
+          v-if="name === 'index'"
+          class="nav">
           <li>
             <nuxt-link
               to="/"
@@ -94,7 +98,8 @@ export default {
       search: '',
       isFocus: false,
       searchList: [],
-      hotPlace: []
+      hotPlace: [],
+      name: ''
     }
   },
   computed: {
@@ -104,6 +109,10 @@ export default {
     isSearchList: function() {
       return this.isFocus && this.search
     }
+  },
+  mounted() {
+    this.name = this.$nuxt.$route.name
+    console.log(this.name)
   },
   methods: {
     focus: function() {
