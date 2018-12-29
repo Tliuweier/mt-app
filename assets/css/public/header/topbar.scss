@@ -2,7 +2,7 @@
   @at-root .el-header{
     .m-header.m-header-topbar{
       width: 1190px!important;
-      z-index: 9999;
+      z-index: 777;
       height: 40px;
       line-height: 40px;
       z-index: 9;
@@ -45,7 +45,7 @@
     float: right;
     margin: 0;
     padding: 0;
-    z-index: 999;
+    z-index: 777;
     .nav {
       list-style: none;
       float: right;
@@ -81,7 +81,7 @@
         dl {
           background: #fff;
           display: none;
-          z-index: 999;
+          z-index: 777;
 
           dd {
             line-height: 35px;
@@ -133,7 +133,7 @@
           width: 1253px;
           position: relative;
           left: -1175px;
-          z-index: 999;
+          z-index: 777;
           border: 1px solid #e5e5e5;
           display: none;
           text-align: left;

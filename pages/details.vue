@@ -347,7 +347,8 @@ export default {
   ul {
     width: 720px;
     list-style: none;
-    padding: 20px 0 0 85px;
+    padding: 20px 0 0 0;
+    margin: 0 auto;
     li {
       float: left;
       width: 220px;
@@ -358,6 +359,7 @@ export default {
         height: 100%;
         width: 100%;
         img {
+          margin: 0 auto;
           display: block;
           width: 100%;
           height: 100%;
