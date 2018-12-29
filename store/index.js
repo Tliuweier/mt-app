@@ -2,6 +2,8 @@ import Vue from 'Vue'
 import Vuex from 'Vuex'
 import geo from './modules/geo'
 import home from './modules/home'
+import index from './modules/index'
+import city from './modules/City'
 
 Vue.use(Vuex)
 
@@ -9,7 +11,9 @@ const store = () =>
   new Vuex.Store({
     modules: {
       geo,
-      home
+      home,
+      index,
+      city
     },
     actions: {
       async nuxtServerInit({ commit }, { eq, app }) {
@@ -40,6 +44,10 @@ const store = () =>
           }
         })
         commit('home/setHotPlace', status3 === 200 ? result : [])
+        //获取热门城市
+        //相邻城市
+        //全部城市
+        //最近访问城市
       }
     }
   })

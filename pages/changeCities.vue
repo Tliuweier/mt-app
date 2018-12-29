@@ -1,6 +1,5 @@
 <template>
   <div class="page-changeCitys">
-
     <el-row>
       <el-col :span="24">
         <is-select/>
@@ -35,6 +34,11 @@ export default {
     hotPlace,
     latelyVisit,
     categroy
+  },
+  data() {
+    return {
+      name: ''
+    }
   }
 }
 </script>

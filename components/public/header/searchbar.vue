@@ -1,7 +1,6 @@
 <template>
   <div class="search-panel">
     <el-row
-      :style="name !== 'index'?'height:130px':'height:157px'"
       class="m-header-searchbar">
       <el-col
         :span="3"
@@ -47,7 +46,6 @@
 
         </p>
         <ul
-          v-if="name === 'index'"
           class="nav">
           <li>
             <nuxt-link
@@ -111,8 +109,9 @@ export default {
     }
   },
   mounted() {
-    this.name = this.$nuxt.$route.name
-    console.log(this.name)
+    const name = this.$nuxt.$route.name
+    //console.log(this.name)
+    console.log(name)
   },
   methods: {
     focus: function() {

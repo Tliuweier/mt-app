@@ -18,7 +18,13 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      hotPlace: []
+    }
+  }
+}
 </script>
 
 <style lang="scss">

@@ -6,7 +6,8 @@
         <a
           v-for="item in list"
           :key="item"
-          :href="'#city-'+item">{{ item }}</a>
+          :href="'#city-'+item"
+          class="categroy-setion-title">{{ item }}</a>
       </p>
     </div>
     <div class="categroy-city">
@@ -25,8 +26,8 @@
             <span>鞍df山</span>
             <span>鞍山</span>
             <span>鞍山</span>
-            <span>鞍山s</span>
-            <span>鞍山</span>
+            <span>北京</span>
+            <span>北平</span>
             <span>鞍山</span>
             <span>鞍山</span>
             <span>鞍山</span>
@@ -96,11 +97,23 @@ export default {
       display: inline-block;
     }
     p {
+      max-width: 1000px;
       display: inline-block;
-      a {
+      .categroy-setion-title {
         color: #666;
-        font-size: 14px;
-        margin: 0 15px 0px 10px;
+        font-size: 15px;
+        margin: 0 6px;
+        text-align: center;
+        width: 25px;
+        height: 25px;
+        box-sizing: border-box;
+        border-radius: 50%;
+        padding-top: 2px;
+        //vertical-align: top;
+        display: inline-block;
+        &:hover {
+          background: #f8f8f8;
+        }
       }
     }
   }
@@ -110,8 +123,8 @@ export default {
       padding: 13px 30px 13px 10px;
       border-radius: 10px;
       &:hover {
-        padding: 13px 30px 13px 10px;
-        border-radius: 10px;
+        /*padding: 13px 30px 13px 10px;*/
+        /*border-radius: 10px;*/
         background: #f8f8f8;
       }
       .categroy-city-dl {
