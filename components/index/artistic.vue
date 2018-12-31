@@ -106,7 +106,7 @@ export default {}
 .tips {
   font-size: 12px;
   color: #999;
-  line-height: 18px;
+  line-height: 10px;
   height: 14px;
   margin-bottom: 5px;
   white-space: nowrap;
