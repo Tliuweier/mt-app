@@ -14,7 +14,7 @@
             <div class="source">评分：4.6分</div>
             <div class="desc">燃烧我的卡路里，挺好吃的</div>
             <div class="noshowBigImg">
-              <img src="../../assets/img/meituan.png">
+              <img src="../../assets/img/test1.jpg">
             </div>
             <div class="lines"/>
           </div>
@@ -112,6 +112,7 @@ export default {}
           padding-top: 13px;
         }
         .noshowBigImg {
+          margin-top: 4px;
           img {
             width: 140px;
             height: 140px;

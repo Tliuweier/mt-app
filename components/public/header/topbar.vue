@@ -2,13 +2,13 @@
   <el-row
     :gutter="0"
     class="m-header">
-    <el-col :span="5">
+    <el-col :span="6">
       <geo/>
     </el-col>
-    <el-col :span="5">
+    <el-col :span="7">
       <user/>
     </el-col>
-    <el-col :span="14">
+    <el-col :span="11">
       <navbar/>
     </el-col>
   </el-row>
