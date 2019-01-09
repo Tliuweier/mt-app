@@ -162,21 +162,7 @@ export default {
       dialogTableVisible: false
     }
   },
-  async asyncData(ctx) {
-    let poiId = ctx.query.poiId
-    let _this = this
-    let { status, data } = await ctx.$axios.get('/shop/getShop', {
-      params: {
-        poiId
-      }
-    })
-    if (status == 200) {
-      return {
-        shoplist: data,
-        deallist: data.dealList
-      }
-    }
-  }
+  async asyncData(ctx) {}
 }
 </script>
 <style lang="scss">
