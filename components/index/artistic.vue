@@ -1,7 +1,8 @@
 <template>
   <section class="m-istyle">
     <dl>
-      <dt class="ftfamily">有格调</dt>
+      <dt
+        class="ftfamily">有格调</dt>
       <dd class="all active">全部</dd>
       <dd class="part">约会聚餐</dd>
       <dd class="spa">丽人SPA</dd>
@@ -11,6 +12,7 @@
     <ul class="ibody">
       <li>
         <el-card
+          v-model="poiId"
           :body-style="{ padding: '0px'}"
           shadow="never">
           <img
@@ -40,7 +42,7 @@
       <li>
         <el-card
           :body-style="{ padding: '0px'}"
-          shadow="never">
+          shadow="hover">
           <img
             src="//p0.meituan.net/msmerchant/83bf164409132fc35943db3da77ad1a548964.jpg@460w_260h_1e_1c"
             class="image">
@@ -94,11 +96,24 @@
         </el-card>
       </li>
     </ul>
+    <nuxt-link :to="{path:'details',query:{poiId:'111364352'}}">Test</nuxt-link>
   </section>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      poiId: 111364352
+    }
+  },
+  methods: {
+    Shopdetail: function() {},
+    openShop: function() {
+      console.log(123)
+    }
+  }
+}
 </script>
 
 <style lang="scss">

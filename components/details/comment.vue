@@ -1,36 +1,45 @@
 <template>
   <div class="comment">
-    <div class="title">6条网友点评 <span>质量排序</span><span>时间排序</span></div>
+    <div class="title">{{ comments.count }}条网友点评 <span>质量排序</span><span>时间排序</span></div>
     <div class="com-cont clear">
+      <div class="tag">
+
+        <el-tag
+          v-for="(tagList,index) in comments.tags"
+          :key="index">{{ tagList.content }}({{ tagList.count }})</el-tag>
+      </div>
       <div class="sea">只看图片的评论</div>
       <div>
-        <div class="list clear">
+        <div
+          v-for="(commentsList,index) in comments.comments"
+          :key="index"
+          class="list clear">
           <div class="header">
-            <img src="../../assets/img/test1.jpg">
+            <img :src="commentsList.user.imgUrl">
           </div>
           <div class="info">
-            <div class="name">燃烧我的卡路里</div>
-            <div class="date">2019-01-01</div>
-            <div class="source">评分：4.6分</div>
-            <div class="desc">燃烧我的卡路里，挺好吃的</div>
+            <div class="name">{{ commentsList.user.userName }}</div>
+            <div class="source">
+              <el-rate
+                v-model="commentsList.star"
+                disabled
+                text-color="#ff9900" />
+              <span class="date">{{ commentsList.modData }}</span>
+            </div>
+            <div class="desc">{{ commentsList.content }}</div>
             <div class="noshowBigImg">
-              <img src="../../assets/img/test1.jpg">
+              <img
+                v-for="(imgList,index) in commentsList.pics"
+                :key="index"
+                :src="imgList">
+            </div>
+            <div class="address">
+              {{ commentsList.poiInfo.title }}
             </div>
             <div class="lines"/>
           </div>
         </div>
-        <div class="list clear">
-          <div class="header">
-            <img src="../../assets/img/test1.jpg">
-          </div>
-          <div class="info">
-            <div class="name">燃烧我的卡路里</div>
-            <div class="date">2019-01-01</div>
-            <div class="source">评分：4.6分</div>
-            <div class="desc">燃烧我的卡路里，挺好吃的</div>
-            <div class="lines"/>
-          </div>
-        </div>
+        <!--按钮-->
         <div class="mt-pagination">
           <ul class="pagination clear">
             <li>
@@ -50,13 +59,27 @@
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    comments: {
+      type: Object,
+      default() {
+        return []
+      }
+    }
+  },
+  data() {
+    return {
+      value2: 4
+    }
+  }
+}
 </script>
 
 <style lang="scss">
 .comment {
   margin-top: 20px;
-  margin-left: 20px;
+  //margin-left: 20px;
   .title {
     font-size: 18px;
     color: #222;
@@ -64,6 +87,8 @@ export default {}
     span {
       font-size: 12px;
       color: #666;
+      float: right;
+      margin-right: 10px;
     }
   }
   .com-cont {
@@ -72,9 +97,17 @@ export default {}
     box-shadow: 0 5px 14px 0 rgba(0, 0, 0, 0.1);
     background: #fff;
     padding: 0 20px 40px;
+    .tag {
+      margin-top: 10px;
+      padding: 10px;
+      .el-tag {
+        margin-right: 5px;
+      }
+    }
     .sea {
       margin-top: 22px;
       font-size: 14px;
+      margin-bottom: 40px;
     }
     .list {
       padding: 20px 0 0;
@@ -87,6 +120,8 @@ export default {}
           width: 100%;
           height: 100%;
           border-radius: 50%;
+          top: -45px;
+          position: relative;
         }
       }
       .info {
@@ -106,6 +141,15 @@ export default {}
           line-height: 20px;
           color: #999;
         }
+        .source {
+          .el-rate {
+            display: inline-block;
+          }
+          .date {
+            float: right;
+            display: inline-block;
+          }
+        }
         .desc {
           font-size: 14px;
           line-height: 20px;
@@ -116,7 +160,11 @@ export default {}
           img {
             width: 140px;
             height: 140px;
+            margin-right: 15px;
           }
+        }
+        .address {
+          margin: 10px 0;
         }
         .lines {
           margin-top: 40px;

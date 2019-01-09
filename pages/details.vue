@@ -126,7 +126,7 @@
     </el-row>
     <el-row>
       <el-col :span="24">
-        <summa />
+        <summa :shoplist="shoplist" />
       </el-col>
     </el-row>
     <el-row>
@@ -139,7 +139,7 @@
     </el-row>
     <el-row>
       <el-col :span="20">
-        <comment/>
+        <div>用户点评</div>
       </el-col>
     </el-row>
   </div>
@@ -157,7 +157,24 @@ export default {
   },
   data() {
     return {
+      shoplist: [],
+      deallist: [],
       dialogTableVisible: false
+    }
+  },
+  async asyncData(ctx) {
+    let poiId = ctx.query.poiId
+    let _this = this
+    let { status, data } = await ctx.$axios.get('/shop/getShop', {
+      params: {
+        poiId
+      }
+    })
+    if (status == 200) {
+      return {
+        shoplist: data,
+        deallist: data.dealList
+      }
     }
   }
 }

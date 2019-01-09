@@ -1,5 +1,5 @@
 const pkg = require('./package')
-
+const webpack = require('webpack')
 module.exports = {
   mode: 'universal',
 
@@ -56,6 +56,13 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
+    vendor: ['jquery'],
+    plugins: [
+      new webpack.ProvidePlugin({
+        $: 'jquery'
+      })
+    ],
+
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
