@@ -1,24 +1,24 @@
 <template>
   <div class="hot-place">
     <h3>热门城市：</h3>
-    <p>
-      <a>北京</a>
-      <a>上海</a>
-      <a>广州</a>
-      <a>深圳</a>
-      <a>天津</a>
-      <a>南京</a>
-      <a>杭州</a>
-      <a>武汉</a>
-      <a>佛山</a>
-      <a>西安</a>
-      <a>成都</a>
+    <p
+      v-for="item in hotcitys"
+      :key="item.id">
+      <a>{{ item.name }}</a>
     </p>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    hotcitys: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
   data() {
     return {
       hotPlace: []

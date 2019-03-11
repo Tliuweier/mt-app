@@ -7,17 +7,23 @@
         <h2
           style="padding: 10px 0 10px 20px;
           ">
-          4款堂食套餐
+          {{ deallist.deals.length }}款堂食套餐
         </h2>
-        <item-list/>
+        <item-list
+          v-for="(dealsList,index) in deallist.deals"
+          :key="index"
+          :deals="dealsList"/>
 
       </div>
       <div class="itemlist clear">
         <h2
           style="padding: 10px 0 10px 20px;">
-          1张代金券
+          {{ deallist.vouchers.length }}张代金券
         </h2>
-        <vouchers-list/>
+        <vouchers-list
+          v-for="(vouchersList,index) in deallist.vouchers"
+          :key="index"
+          :vouchers="vouchersList"/>
 
       </div>
     </div>
@@ -40,6 +46,14 @@ export default {
   components: {
     itemList,
     vouchersList
+  },
+  props: {
+    deallist: {
+      type: Object,
+      default() {
+        return []
+      }
+    }
   },
   data() {
     return {

@@ -1,19 +1,25 @@
 <template>
   <div class="lately-visit">
     <h3>最近访问：</h3>
-    <p>
-      <a>北京</a>
-      <a>上海</a>
-      <a>广州</a>
-      <a>深圳</a>
-      <a>天津</a>
-      <a>南京</a>
+    <p
+      v-for="item in recentcities"
+      :key="item.id">
+      <a>{{ item.name }}</a>
     </p>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    recentcities: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss">

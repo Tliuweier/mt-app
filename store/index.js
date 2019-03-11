@@ -3,7 +3,7 @@ import Vuex from 'Vuex'
 import geo from './modules/geo'
 import home from './modules/home'
 import index from './modules/index'
-import city from './modules/City'
+import createLogger from 'vuex/dist/logger'
 
 Vue.use(Vuex)
 
@@ -12,8 +12,7 @@ const store = () =>
     modules: {
       geo,
       home,
-      index,
-      city
+      index
     },
     actions: {
       async nuxtServerInit({ commit }, { eq, app }) {
@@ -22,7 +21,7 @@ const store = () =>
           data: { province, city, ip }
         } = await app.$axios.get('/geo/getPosition')
         commit(
-          'geo/setPosition',
+          'geo/setPositions',
           status === 200
             ? { city, province, ip }
             : { city: '', province: '', ip: '' }
@@ -44,12 +43,15 @@ const store = () =>
           }
         })
         commit('home/setHotPlace', status3 === 200 ? result : [])
+        console.log(result)
         //获取热门城市
         //相邻城市
         //全部城市
         //最近访问城市
       }
-    }
+    },
+    plugins: [createLogger()],
+    strict: process.env.NODE_ENV !== 'production'
   })
 
 export default store

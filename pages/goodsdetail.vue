@@ -269,7 +269,9 @@
     <!--用户点评-->
     <div style="width: 950px">
       <comment
-        :comments="comments"/>
+        :comments="comments"
+        @handcomments="newComment"
+        @filterImg="ImgList"/>
     </div>
 
     <!--弹窗-->
@@ -302,7 +304,7 @@
 </template>
 <script>
 import Topbar from '../components/public/header/topbar'
-import comment from '../components/details/comment.vue'
+import comment from '../components/goodsdetails/comment.vue'
 export default {
   components: {
     Topbar,
@@ -320,7 +322,18 @@ export default {
   },
   async asyncData(ctx) {
     let _this = this
+    let page = 1
     let { status, data } = await ctx.$axios.get('/goodsdetail/getGoodsDetail')
+    let { status: status2, data: comments } = await ctx.$axios.get(
+      '/goodsdetail/getcomment',
+      {
+        params: {
+          page
+        }
+      }
+    )
+    console.log(data)
+    console.log(comments)
     let list = data.data[0].poiList.dealPoisInfo
     list.forEach(function(item) {
       item.poiScore = item.poiScore / 10
@@ -328,7 +341,7 @@ export default {
     return {
       dealInfo: data.data[0].dealInfo,
       poiList: data.data[0].poiList,
-      comments: data.data[0].comment,
+      comments: comments.data[0].comment,
       dealId: data.data[0].dealId
     }
   },
@@ -385,6 +398,16 @@ export default {
     },
     priMore: function() {
       $('#ulList').addClass('thidden')
+    },
+    newComment: function(data) {
+      this.comments = data.data[0].comment
+    },
+    ImgList: function(data) {
+      this.comments.comments.length = 0
+      for (var i = 1; i < data.length; i++) {
+        this.comments.comments.push(data[i])
+      }
+      this.comments.count = data.length
     }
   }
 }

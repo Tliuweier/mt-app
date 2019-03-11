@@ -2,20 +2,20 @@
   <div
     class="vouchers-list">
     <div class="picer">
-      <span class="pic">￥88</span>
-      代100元代金券
+      <span class="pic">￥{{ vouchers.price }}</span>
+      代 {{ vouchers.value }}元代金券
     </div>
     <div class="info">
       <div style="display: inline-block;">
         <p class="name">
-          <span>精选套餐，建议2-3人使用</span>
+          <span>{{ vouchers.title }}</span>
           <!--<img src="http://p1.meituan.net/codeman/31eac2c905f5be14ce80654d9508e720832.png" class="icon">-->
         </p>
-        <p class="sale">已售15</p>
+        <p class="sale">已售{{ vouchers.soldNum }}</p>
       </div>
       <el-button
         round
-        size="small">立即登录</el-button>
+        size="small">立即购买</el-button>
 
     </div>
 
@@ -23,7 +23,16 @@
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    vouchers: {
+      type: Object,
+      default() {
+        return []
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss">

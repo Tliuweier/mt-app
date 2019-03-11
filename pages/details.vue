@@ -6,17 +6,18 @@
       @click="dialogTableVisible = true">餐单详情页</el-button>
     <el-dialog
       :visible.sync="dialogTableVisible"
-      width="60%" >
+      width="60%"
+      @open="openDetail">
       <div class="info clear">
         <div class="pic">
           <div class="imgbox">
             <img
-              src="../assets/img/test1.jpg">
+              :src="goodsDetail.imgUrl">
           </div>
         </div>
         <div class="dea">
-          <p class="name">超值2-3人套餐</p>
-          <p class="price"><span>￥125</span><span class="small">门店价￥148</span></p>
+          <p class="name">{{ goodsDetail.title }}</p>
+          <p class="price"><span>￥{{ goodsDetail.price }}</span><span class="small">门店价￥{{ goodsDetail.value }}</span></p>
           <p class="actions">
             <el-button round>立即抢购</el-button>
             <el-button round>查看详情</el-button>
@@ -33,63 +34,52 @@
               <span class="last">小计</span>
             </div>
           </div>
-          <div class="name clear">
-            <div class="fl">饮品7选2（可重复选）</div>
+          <div
+            v-for="(menusList,mindex) in goodsDetail.menu"
+            v-if="menusList.type==='0'&&menusList.notDishes === 'false'"
+            :key="mindex"
+
+            class="name clear">
+            <div class="fl">{{ menusList.content }}</div>
             <div class="fr">
-              <p>
-                <span class="title">朱古力2.0（热/冷）</span>
-                <span>￥25</span><span>1 杯</span>
-                <span class="last">￥25</span>
-              </p>
-              <p>
-                <span class="title">朱古力2.0（热/冷）</span>
-                <span>￥25</span><span>1 杯</span>
-                <span class="last">￥25</span>
-              </p>
-              <p>
-                <span class="title">西红柿炒蛋</span>
-                <span>￥300</span><span>1 份</span>
-                <span class="last">￥300</span>
+              <p
+                v-for="(nMenusList,tindex) in even(goodsDetail.menu,mindex)"
+                :key="tindex">
+                <span class="title">{{ nMenusList.content }}</span>
+                <span>￥{{ nMenusList.price }}</span><span>{{ nMenusList.specification }}</span>
+                <span class="last">￥{{ nMenusList.total }}</span>
               </p>
             </div>
           </div>
-          <div class="name clear">
-            <div class="fl">饮品7选2（可重复选）</div>
-            <div class="fr">
-              <p>
-                <span class="title">朱古力2.0（热/冷）</span>
-                <span>￥25</span><span>1 杯</span>
-                <span class="last">￥25</span>
-              </p>
-              <p>
-                <span class="title">朱古力2.0（热/冷）</span>
-                <span>￥25</span><span>1 杯</span>
-                <span class="last">￥25</span>
-              </p>
-            </div>
-          </div>
-          <div class="total"><span>价值: ￥148</span><span>美团价: <b>￥125</b></span></div>
+          <div class="total"><span>价值: ￥{{ goodsDetail.value }}</span><span>美团价: <b>￥{{ goodsDetail.price }}</b></span></div>
         </div>
       </div>
-      <ul class="tips">
-        <li>免费提供餐巾纸</li>
-        <li>以上为近一期菜单，厨师会根据当日食材新鲜情况，创意定制~</li>
+      <ul
+        v-for="(menusList,index) in goodsDetail.menu"
+        :key="index"
+        class="tips">
+        <template v-if="menusList.notDishes === 'true' && menusList.type==='0'">
+          <li
+            v-for="(contentList,index) in menusList.content.split('\n')"
+            :key="index">{{ contentList }}</li>
+        </template>
+
+
       </ul>
       <div class="notes">
         <h4>购买须知</h4>
         <div class="cont">
-          <p class="clear">
-            <span class="fl">有效期</span>
-            <span class="fr">2018.7.5 至 2019.1.31（周末、法定节假日通用）</span>
+          <p
+            v-for="(termsList,index) in goodsDetail.terms"
+            :key="index"
+            class="clear">
+            <span class="fl">{{ termsList.title }}</span>
+            <span
+              v-for="(content,index) in termsList.content"
+              :key="index"
+              class="fr">{{ content }}</span>
           </p>
-          <p class="clear">
-            <span class="fl">使用时间</span>
-            <span class="fr">美团券24小时可用</span>
-          </p>
-          <p class="clear">
-            <span class="fl">使用规则</span>
-            <span class="fr">需提前预约哦~，每张美团券建议1人使用，店内无包间，仅限餐前外带，可以打包，打包费详情咨询商家，团购用户不可同时享受商家其他优惠酒水饮料等问题，请致电商家咨询，以商家反馈为准如部分菜品因时令或其他不可抗因素导致无法提供，店内会用等价菜品替换，具体事宜请与店内协商，提供免费WiFi</span>
-          </p>
+
         </div>
       </div>
       <div class="photos">
@@ -118,28 +108,40 @@
           round>查看 板崎厨师发办，建议单人使用 全部详情</el-button>
       </div>
     </el-dialog>
+    <!--导航-->
     <el-row>
       <el-col :span="24">
-        <div style="margin-left: 25px;margin-bottom: 20px;">广州美团>广州美食>广州西餐</div>
+        <div style="margin-left: 25px;margin-bottom: 20px;">
+          <template
+            v-for="(crumbNavList,index) in shoplist.crumbNav">
+            {{ crumbNavList.title }}
+            <span
+              v-if="index != shoplist.crumbNav.length-1"
+              :key="index"> > </span>
+          </template>
+        </div>
 
       </el-col>
     </el-row>
+    <!--商家信息-->
     <el-row>
       <el-col :span="24">
         <summa :shoplist="shoplist" />
       </el-col>
     </el-row>
+    <!--商家优惠-->
     <el-row>
       <el-col :span="20">
-        <list/>
+        <list :deallist="deallist"/>
       </el-col>
       <el-col :span="4">
         6
       </el-col>
     </el-row>
+    <!--用户点评-->
     <el-row>
       <el-col :span="20">
-        <div>用户点评</div>
+        <comment :comments="comment"/>
       </el-col>
     </el-row>
   </div>
@@ -159,10 +161,67 @@ export default {
     return {
       shoplist: [],
       deallist: [],
+      comment: [],
+      nMenuS: [],
+      goodsDetail: [],
       dialogTableVisible: false
     }
   },
-  async asyncData(ctx) {}
+  async asyncData(ctx) {
+    let _this = this
+    let { status, data } = await ctx.$axios.get(
+      `https://www.easy-mock.com/mock/5c3d267b64a635155144871a/example/store/getStore`
+    )
+    if (status == 200) {
+      if (data.code == 1) {
+        let commentList = data.data.storeDetail[0].comment.comments
+        commentList.forEach(function(item) {
+          item.star = item.star / 10
+          item.commentTime = new Date(parseInt(item.commentTime))
+            .toLocaleString()
+            .replace(/:\d{1,2}$/, '')
+        })
+        return {
+          shoplist: data.data.storeDetail[0],
+          deallist: data.data.storeDetail[0].dealList,
+          comment: data.data.storeDetail[0].comment
+        }
+      }
+    }
+  },
+  methods: {
+    openDetail: function() {
+      this.$axios
+        .get(
+          `https://www.easy-mock.com/mock/5c3d267b64a635155144871a/example/store/getDetail`
+        )
+        .then(res => {
+          //console.log(_this)
+          //console.log(this)
+          this.goodsDetail = res.data.data.data
+        })
+    },
+    even: function(list, index) {
+      console.log(list)
+      console.log(index)
+      const end = 0 //结束位置
+      for (var i = index + 1; i < list.length; i++) {
+        if (
+          this.goodsDetail.menu[i].type === '0' &&
+          this.goodsDetail.menu[i].notDishes === 'false'
+        ) {
+          return this.goodsDetail.menu.slice(index + 1, i)
+        } else {
+          if (
+            this.goodsDetail.menu[i].type === '0' &&
+            this.goodsDetail.menu[i].notDishes === 'true'
+          ) {
+            return this.goodsDetail.menu.slice(index + 1, i)
+          }
+        }
+      }
+    }
+  }
 }
 </script>
 <style lang="scss">

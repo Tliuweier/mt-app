@@ -2,22 +2,22 @@
   <div class="page-changeCitys">
     <el-row>
       <el-col :span="24">
-        <is-select/>
+        <is-select :selectcity="provincecityinfo"/>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
-        <hot-place/>
+        <hot-place :hotcitys="hotCities"/>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
-        <lately-visit/>
+        <lately-visit :recentcities="recentCities"/>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
-        <categroy/>
+        <categroy :opencitylists="openCityList" />
       </el-col>
     </el-row>
   </div>
@@ -37,7 +37,30 @@ export default {
   },
   data() {
     return {
-      name: ''
+      name: '',
+      hotCities: [],
+      openCityList: [],
+      recentCities: [],
+      currentCity: [],
+      provincecityinfo: []
+    }
+  },
+  async asyncData(ctx) {
+    let _this = this
+    let { status, data } = await ctx.$axios.get(
+      `https://www.easy-mock.com/mock/5c3d267b64a635155144871a/example/city/getCity`
+    )
+    if (status === 200) {
+      if (data.code == 1) {
+        // console.log(data.data)
+        return {
+          currentCity: data.data.cityList[0].currentCity,
+          hotCities: data.data.cityList[0].hotCities,
+          openCityList: data.data.cityList[0].openCityList,
+          recentCities: data.data.cityList[0].recentCities,
+          provincecityinfo: data.data.cityList[0].provincecityinfo
+        }
+      }
     }
   }
 }

@@ -13,6 +13,9 @@ import passport from './interface/utils/passport'
 import geo from './interface/geo'
 import search from './interface/search'
 import goodsDetail from './interface/goodsDetail'
+import storeDetail from './interface/storeDetail'
+import citys from './interface/city'
+import pages from './interface/page'
 const app = new Koa()
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
@@ -49,6 +52,9 @@ async function start() {
   app.use(geo.routes()).use(geo.allowedMethods())
   app.use(search.routes()).use(search.allowedMethods())
   app.use(goodsDetail.routes()).use(goodsDetail.allowedMethods())
+  app.use(storeDetail.routes()).use(storeDetail.allowedMethods())
+  app.use(citys.routes()).use(citys.allowedMethods())
+  app.use(pages.routes()).use(pages.allowedMethods())
   app.use(ctx => {
     ctx.status = 200 // koa defaults to 404 when it sees that status is unset
 

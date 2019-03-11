@@ -4,74 +4,26 @@
       <h3>按拼音首字母选择：</h3>
       <p>
         <a
-          v-for="item in list"
-          :key="item"
-          :href="'#city-'+item"
-          class="categroy-setion-title">{{ item }}</a>
+          v-for="item in opencitylists"
+          :key="item[0]"
+          :href="'#city-'+item[0]"
+          class="categroy-setion-title">{{ item[0] }}</a>
       </p>
     </div>
     <div class="categroy-city">
+
       <div
-        id="city-A"
+        v-for="item2 in opencitylists"
+        :id="'city-'+item2[0]"
+        :key="item2[0]"
         class="categroy-city-item">
         <dl class="categroy-city-dl">
-          <dt>A</dt>
+          <dt>{{ item2[0] }}</dt>
           <dd>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>wer鞍山</span>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>鞍df山</span>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>北京</span>
-            <span>北平</span>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>鞍sd山</span>
-            <span>鞍山s</span>
-            <span>鞍山</span>
-            <span>鞍s山</span>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>鞍山s</span>
-            <span>鞍sf山</span>
-            <span>鞍山df</span>
-          </dd>
-        </dl>
-      </div>
-      <div
-        id="city-B"
-        class="categroy-city-item">
-        <dl class="categroy-city-dl">
-          <dt>B</dt>
-          <dd>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>wer鞍山</span>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>鞍df山</span>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>鞍山s</span>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>鞍sd山</span>
-            <span>鞍山s</span>
-            <span>鞍山</span>
-            <span>鞍s山</span>
-            <span>鞍山</span>
-            <span>鞍山</span>
-            <span>鞍山s</span>
-            <span>鞍sf山</span>
-            <span>鄂尔多斯</span>
+            <span
+              v-for="citem in item2[1]"
+              :style="citem.rank ==='S'||citem.rank==='A'?'color:#F60':'color:#666'"
+              :key="citem.id">{{ citem.name }}</span>
           </dd>
         </dl>
       </div>
@@ -81,6 +33,14 @@
 
 <script>
 export default {
+  props: {
+    opencitylists: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
   data() {
     return {
       list: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')

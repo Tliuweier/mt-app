@@ -1,13 +1,13 @@
 <template>
   <div class=" m-geo">
-    <i class="el-icon-location"/>{{ $store.state.geo.position.city==null? "广州市" : $store.state.geo.position.city }}
+    <i class="el-icon-location"/>{{ cityname }}
     <nuxt-link
       :to="{name:'changeCities'}"
       class="changeCity">切换城市</nuxt-link>
     <div class="near-citys">[
-      <a
-        class="city-guess"
-        href="https://fs.meituan.com">佛山</a>
+      <nuxt-link
+        :to="{name:'details'}"
+        class="city-guess">佛山</nuxt-link>
       <a
         class="city-guess"
         href="https://sd.meituan.com">顺德</a>
@@ -19,9 +19,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data() {
-    return { address: '中国' }
+    return { city: '' }
+  },
+  computed: {
+    cityname() {
+      return this.$store.state.geo.position.city
+    }
+  },
+  watch: {
+    city: function() {
+      this.city = CITYNAME
+    }
   }
 }
 </script>

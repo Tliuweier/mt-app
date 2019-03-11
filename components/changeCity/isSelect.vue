@@ -1,27 +1,26 @@
 <template>
   <div class="is-select">
     <span>按省份选择:</span>
-    <el-select placeholder="省份">
+    <el-select
+      v-model="value"
+      placeholder="请选择省份"
+      @change="selectprovince">
       <el-option
-        lang="北京"
-        value="北京"/>
-      <el-option
-        lang="广州"
-        value="广州"/>
-      <el-option
-        lang="上海"
-        value="上海"/>
+        v-for="item in selectcity"
+        :key="item.provinceCode"
+        :value="item.provinceName"
+        :label="item.provinceName"/>
     </el-select>
-    <el-select placeholder="城市">
+    <el-select
+      v-model="value2"
+      :disabled="state"
+      placeholder="请选择城市"
+      @change="choseCity">
       <el-option
-        lang="北京"
-        value="北京"/>
-      <el-option
-        lang="广州"
-        value="广州"/>
-      <el-option
-        lang="上海"
-        value="上海"/>
+        v-for="item in cityList"
+        :key="item.id"
+        :value="item.name"
+        :label="item.name"/>
     </el-select>
     <span class="title">直接搜索:</span>
     <el-autocomplete placeholder="请输入城市中文或拼音"/>
@@ -29,7 +28,45 @@
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    selectcity: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
+  data() {
+    return {
+      name5: '北京',
+      value: '',
+      value2: '',
+      cityList: [],
+      state: true
+    }
+  },
+  methods: {
+    selectprovince: function() {
+      this.state = false
+      const index = this.value
+      const newArr = this.selectcity.filter(function(arr) {
+        return arr.provinceName === index
+      })
+      this.cityList = newArr[0].cityInfoList
+    },
+    choseCity: function() {
+      console.log(this.$store)
+      const obj = {}
+      obj.province = this.value + '省'
+      obj.city = this.value2 + '市'
+      //this.$store.dispatch('changeCity', obj)
+      console.log(obj)
+      this.$store.dispatch('geo/changeCity', obj)
+      this.$router.push('/')
+    }
+  }
+}
 </script>
 
 <style lang="scss">

@@ -3,17 +3,17 @@
     class="item-list">
     <div class="pic">
       <div class="imgbox">
-        <img src="../../assets/img/test1.jpg" >
+        <img :src="deals.frontImgUrl" >
       </div>
     </div>
     <div class="info">
       <div style="display: inline-block;">
         <p class="name">
-          <span>精选套餐，建议2-3人使用</span>
+          <span>{{ deals.title }}</span>
           <!--<img src="http://p1.meituan.net/codeman/31eac2c905f5be14ce80654d9508e720832.png" class="icon">-->
         </p>
-        <p class="sale">已售15</p>
-        <p class="price"><b>￥</b>198<span>门店价￥430</span></p>
+        <p class="sale">已售{{ deals.soldNum }}</p>
+        <p class="price"><b>￥</b>{{ deals.price }}<span>门店价￥{{ deals.value }}</span></p>
       </div>
       <el-button
         round
@@ -27,6 +27,14 @@
 
 <script>
 export default {
+  props: {
+    deals: {
+      type: Object,
+      default() {
+        return []
+      }
+    }
+  },
   data() {
     return {}
   },

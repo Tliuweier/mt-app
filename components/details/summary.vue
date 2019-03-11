@@ -1,32 +1,33 @@
 <template>
   <div class="detail-summary clear">
     <div class="d-left">
-      <div class="name">99美味(西区店)  <span><i class="iconfont icon-renzhengdunpaianquanbaozhangzhibao"/>食品安全档案</span></div>
+      <div class="name">{{ shoplist.detailInfo.name }}  <span><i class="iconfont icon-renzhengdunpaianquanbaozhangzhibao"/>食品安全档案</span></div>
       <div class="score">
         <el-rate
-          v-model="value5"
+          v-model="shoplist.detailInfo.avgScore"
           disabled
           show-score
           text-color="#ff9900"
           score-template="{value}"
           style="display: inline-block"/>
-        <span style="margin-left: 4px;">人均￥20</span>
+        <span style="margin-left: 4px;">人均￥ {{ shoplist.detailInfo.avgPrice }}</span>
       </div>
       <div class="address">
-        <p>地址：蓬江区白沙大道西19号110室 <i class="el-icon-location"/></p>
-        <p>电话：0750-3566576/13725950576</p>
-        <p>营业时间：周一至周日 11:00-21:00</p>
+        <p>{{ shoplist.detailInfo.address }} <i class="el-icon-location"/></p>
+        <p>电话：{{ shoplist.detailInfo.phone }}</p>
+        <p>营业时间：{{ shoplist.detailInfo.openTime }}</p>
       </div>
     </div>
     <div class="d-right">
       <div class="right-img">
-        <img src="../../assets/img/test1.jpg">
+        <img :src="shoplist.photos.frontImgUrl">
       </div>
       <ul>
-        <li><img src="../../assets/img/test1.jpg"></li>
-        <li><img src="../../assets/img/test1.jpg"></li>
-        <li><img src="../../assets/img/test1.jpg"></li>
-        <li><img src="../../assets/img/test1.jpg"></li>
+        <li
+          v-for="(imgUrl,index) in shoplist.photos.albumImgUrls"
+          :key="index">
+          <img :src="imgUrl">
+        </li>
       </ul>
     </div>
   </div>
@@ -34,6 +35,14 @@
 
 <script>
 export default {
+  props: {
+    shoplist: {
+      type: Object,
+      default() {
+        return []
+      }
+    }
+  },
   data() {
     return {
       value5: 4.6

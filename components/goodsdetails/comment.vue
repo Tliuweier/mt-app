@@ -6,63 +6,54 @@
 
         <el-tag
           v-for="(tagList,index) in comments.tags"
-          :key="index">{{ tagList.tag }}({{ tagList.count }})</el-tag>
+          :key="index">{{ tagList.content }}({{ tagList.count }})</el-tag>
       </div>
       <div class="sea">
-        <el-checkbox v-model="checked">只看图片的评论</el-checkbox>
-      </div>
+        <el-checkbox
+          v-model="checked"
+          @change="fliterimg">只看图片的评论</el-checkbox></div>
       <div>
         <div
-          v-for="(commentsList,index) in comments.comments"
-          :key="index"
+          v-for="(commentsList) in comments.comments"
+          v-if="commentsList"
+          :key="commentsList.id"
           class="list clear">
           <div class="header">
-            <img :src="commentsList.userUrl">
+            <img :src="commentsList.user.imgUrl">
           </div>
-          <div class="info1">
-            <div class="name">{{ commentsList.userName }}</div>
+          <div class="info">
+            <div class="name">{{ commentsList.user.userName }}</div>
             <div class="source">
               <el-rate
                 v-model="commentsList.star"
                 disabled
                 text-color="#ff9900" />
-              <span class="date">{{ commentsList.commentTime }}</span>
+              <span class="date">{{ commentsList.modData }}</span>
             </div>
-            <div class="desc">{{ commentsList.comment }}</div>
-            <div
-              v-if="commentsList.merchantComment "
-              class="merchantComment">商家回复：{{ commentsList.merchantComment }}</div>
+            <div class="desc">{{ commentsList.content }}</div>
             <div class="noshowBigImg">
               <img
-                v-for="(imgList,index) in commentsList.picUrls"
+                v-for="(imgList,index) in commentsList.pics"
                 :key="index"
-                :src="imgList.url">
+                :src="imgList">
             </div>
-            <div :class="commentsList.zanCnt>0?'like':'unlike'">
-              <span><i class="iconfont icon-dianzan"/>赞</span>
-            </div>
-            <div
-              v-if="false"
-              class="address">
-              test
+            <div class="address">
+              {{ commentsList.poiInfo.title }}
             </div>
             <div class="lines"/>
           </div>
         </div>
+
         <!--按钮-->
-        <div class="mt-pagination">
-          <ul class="pagination clear">
-            <li>
-              <span class=" el-icon-arrow-left"/>
-            </li>
-            <li>
-              <span class="active">1</span>
-            </li>
-            <li>
-              <span class="el-icon-arrow-right"/>
-            </li>
-          </ul>
+        <div class="mt-paginations">
+
+          <el-pagination
+            v-if="comments.count"
+            :total="comments.count "
+            layout="prev, pager, next"
+            @current-change="handlechangenumber"/>
         </div>
+
       </div>
     </div>
   </div>
@@ -81,7 +72,36 @@ export default {
   data() {
     return {
       value2: 4,
-      checked: true
+      checked: false
+    }
+  },
+  methods: {
+    handlechangenumber: function(val) {
+      let page = val
+      let _this = this
+      _this.$axios
+        .get('/goodsdetail/getcomment', {
+          params: {
+            page
+          }
+        })
+        .then(({ status, data }) => {
+          if (status === 200) {
+            this.$emit('handcomments', data)
+          }
+        })
+    },
+    fliterimg: function(val) {
+      if (val) {
+        let filterImg = this.comments.comments.filter(this.noImg)
+        this.$emit('filterImg', filterImg)
+        filterImg.reverse()
+      } else {
+        this.handlechangenumber(1)
+      }
+    },
+    noImg: function(element, index, array) {
+      return element.pics.length > 0
     }
   }
 }
@@ -90,7 +110,7 @@ export default {
 <style lang="scss">
 .comment {
   margin-top: 20px;
-  margin-left: 20px;
+  //margin-left: 20px;
   .title {
     font-size: 18px;
     color: #222;
@@ -138,7 +158,7 @@ export default {
           position: relative;
         }
       }
-      .info1 {
+      .info {
         float: left;
         width: 800px;
         padding-left: 20px;
@@ -169,12 +189,6 @@ export default {
           line-height: 20px;
           padding-top: 13px;
         }
-        .merchantComment {
-          margin: 10px 0;
-          color: #31bbac;
-          font-size: 14px;
-          line-height: 20px;
-        }
         .noshowBigImg {
           margin-top: 4px;
           img {
@@ -182,18 +196,6 @@ export default {
             height: 140px;
             margin-right: 15px;
           }
-        }
-        .like {
-          margin: 10px 0;
-          display: flex;
-          justify-content: flex-end;
-          color: #2bb8aa;
-        }
-        .unlike {
-          margin: 10px 0;
-          display: flex;
-          justify-content: flex-end;
-          color: #e5e5e5;
         }
         .address {
           margin: 10px 0;
@@ -206,38 +208,8 @@ export default {
         }
       }
     }
-    .mt-pagination {
+    .mt-paginations {
       text-align: center;
-      ul {
-        list-style: none;
-        display: inline-block;
-        li {
-          display: inline-block;
-          width: 40px;
-          height: 40px;
-          margin: 0 10px;
-          font-size: 16px;
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-          transition: background-color 0.5s;
-          span {
-            border: 1px solid #e5e5e5;
-            display: block;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            text-decoration: none;
-            line-height: 40px;
-          }
-          .active {
-            color: #fff;
-            background-color: #13d1be;
-            border-color: #13d1be;
-          }
-        }
-      }
     }
   }
   .clear {
