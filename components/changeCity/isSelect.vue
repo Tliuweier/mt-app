@@ -60,7 +60,7 @@ export default {
       const obj = {}
       obj.province = this.value + '省'
       obj.city = this.value2 + '市'
-      //this.$store.dispatch('changeCity', obj)
+      ////this.$store.dispatch('changeCity', obj)
       console.log(obj)
       this.$store.dispatch('geo/changeCity', obj)
       this.$router.push('/')
